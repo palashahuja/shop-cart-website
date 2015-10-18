@@ -52,14 +52,10 @@
     if(!errorOccured.equals("no error occured")){
         session.setAttribute("errorMsg", errorOccured);
         session.setAttribute("previouspage", prevPath);
-        response.sendRedirect("errormsg.jsp");
+        response.sendRedirect("../views/errormsg.jsp");
     }
     else{
-        out.println("Login Successful\n");
-        out.println("Go to ");
-        out.println("<a href=");
-        out.println(prevPath);
-        out.println("> login page  </a>");
+        response.sendRedirect("../views/loginandregisterpage.html");
     }
    
 %>
