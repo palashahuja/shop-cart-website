@@ -38,7 +38,7 @@ Statement stat = con.createStatement();
 ResultSet rs = stat.executeQuery(checkQuery);
 if(rs.next()){
     session.setAttribute("email", email);
-    response.sendRedirect("../views/home.html");
+    response.sendRedirect("success.jsp");
 }
 %>
 
