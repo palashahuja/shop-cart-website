@@ -11,6 +11,7 @@ String DBNAME = "shop_cart";
 // mysql driver
 String driver = "com.mysql.jdbc.Driver";
 String email = request.getParameter("username");
+String password = request.getParameter("password");
 // the "url" to our DB, the last part is the name of the DB
 String url = "jdbc:mysql://localhost/" + DBNAME;
 // the default DB username and password may be the same as your control panel login
@@ -27,9 +28,8 @@ String pass = "";
 try
 {
 // Test the DB connection by making an empty table
-String checkQuery = "SELECT password FROM user_table where email = '" + email + "'";  
+String checkQuery = "SELECT * FROM user_table where email = '" + email + "' and password = '" + password + "'";  
 Class.forName( driver );
-
 // initialize the Connection, with our DB info ...
 Connection con = DriverManager.getConnection( url, name, pass );
 Statement stat = con.createStatement();
@@ -40,19 +40,21 @@ if(rs.next()){
     session.setAttribute("email", email);
     response.sendRedirect("../views/home.html");
 }
+else{
+    session.setAttribute("errorMsg", "password or email is incorrect");
+    session.setAttribute("previouspage", "../views/loginandregisterpage.html");
+    response.sendRedirect("../views/errormsg.jsp");
+}
 %>
 
 <%
 // close connection
 con.close();
 }
-
 catch (SQLException sqle)
 { out.println("<p> Error opening JDBC, cause:</p> <b> " + sqle + "</b>"); }
-
 catch(ClassNotFoundException cnfe)
-{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>"); }
-
+{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");}
 %>
 </body>
 </html>
