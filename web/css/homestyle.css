@@ -183,20 +183,20 @@ body
 
 .body-middle
 {
-  width: 389px;
+  width: 559px;
   height: 680px;
   float: right;
 }
 .body-middle-box1
 {
-  width: 389px;
+  width: 559px;
   height: 189px;
   background-image: url(../images/lcd.jpg);
   background-repeat: no-repeat;
 }
 .body-middle-box2
 {
-  width: 389px;
+  width: 559px;
   height: 189px;
   background-image: url(../images/sale.jpg);
   background-repeat: no-repeat;
@@ -204,7 +204,7 @@ body
 
 .body-middle-box3
 {
-  width: 389px;
+  width: 559px;
   height: 286px;
   background-image: url(../images/gallery.jpg);
   background-repeat: no-repeat;
