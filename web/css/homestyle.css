@@ -199,7 +199,7 @@ body
   width: 559px;
   height: 189px;
   background-image: url(../images/sale.jpg);
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
 }
 
 .body-middle-box3
@@ -207,7 +207,7 @@ body
   width: 559px;
   height: 286px;
   background-image: url(../images/gallery.jpg);
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
 
@@ -258,8 +258,8 @@ body
   font-family: Tahoma;
   font-size: 23px;
   color: #ffffff;
-  text-align: left;
-  float: right;
+  text-align: center;
+  float: center;
   /*margin-left: 20px;*/
   padding-top: 50px;
 }
@@ -364,19 +364,19 @@ background:#007CAA;
 
 .gallery-product3
 {
-float: right;
+float: left;
 margin-right: 20px;
 padding-top:25px;
 }
 .gallery-product2
 {
-float: right;
+float: left;
 margin-right: 20px;
 padding-top:25px;
 }
 .gallery-product1
 {
-float: right;
+float: left;
 margin-right: 20px;
 padding-top:25px;
 }
