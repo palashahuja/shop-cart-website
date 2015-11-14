@@ -10,6 +10,75 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style>
+        .button{
+            margin-left: 50%;
+        text-decoration:none; 
+        text-align:center; 
+ padding:11px 11px; 
+ border:solid 1px #004F72; 
+ -webkit-border-radius:4px;
+ -moz-border-radius:4px; 
+ border-radius: 4px; 
+ font:18px Arial, Helvetica, sans-serif; 
+ font-weight:bold; 
+ color:#E5FFFF; 
+ background-color:#3BA4C7; 
+ background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982A5 100%); 
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982A5', endColorstr='#1982A5',GradientType=0 ); 
+ background-image: linear-gradient(top, #3BA4C7 0% ,#1982A5 100%);   
+ -webkit-box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff; 
+ -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px 0px 1px #ffffff;  
+ box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;
+    }
+        .button-left{
+            margin-left: 40%;
+        text-decoration:none; 
+        text-align:center; 
+ padding:11px 11px; 
+ border:solid 1px #004F72; 
+ -webkit-border-radius:4px;
+ -moz-border-radius:4px; 
+ border-radius: 4px; 
+ font:18px Arial, Helvetica, sans-serif; 
+ font-weight:bold; 
+ color:#E5FFFF; 
+ background-color:#3BA4C7; 
+ background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982A5 100%); 
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982A5', endColorstr='#1982A5',GradientType=0 ); 
+ background-image: linear-gradient(top, #3BA4C7 0% ,#1982A5 100%);   
+ -webkit-box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff; 
+ -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px 0px 1px #ffffff;  
+ box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;
+    }
+    .button-right{
+            margin-left: 5%;
+        text-decoration:none; 
+        text-align:center; 
+ padding:11px 11px; 
+ border:solid 1px #004F72; 
+ -webkit-border-radius:4px;
+ -moz-border-radius:4px; 
+ border-radius: 4px; 
+ font:18px Arial, Helvetica, sans-serif; 
+ font-weight:bold; 
+ color:#E5FFFF; 
+ background-color:#3BA4C7; 
+ background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+ background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982A5 100%); 
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982A5', endColorstr='#1982A5',GradientType=0 ); 
+ background-image: linear-gradient(top, #3BA4C7 0% ,#1982A5 100%);   
+ -webkit-box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff; 
+ -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px 0px 1px #ffffff;  
+ box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;
+    }
         ul.rig {
 	list-style: none;
 	font-size: 0px;
@@ -77,6 +146,7 @@ ul.rig.columns-4 li {
 		width: 100% !important; /* over-ride all li styles */
 		margin: 0 0 20px;
 	}
+        
 }
         </style>
 <title>Shop Online</title>
@@ -92,12 +162,13 @@ ul.rig.columns-4 li {
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="http://all-free-download.com/free-website-templates/">Home</a></li>
+        <li><a href="home.html">Home</a></li>
         <li><a href="category.jsp">Categories</a></li>
-        <li><a href="products.jsp">Products</a></li>
+        <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
-        <li><a href="add_to_cart.jsp">Add to Cart</a></li>
+        <li><a href="track_your_order.jsp"> Track Your Order </a></li>
+        <li><a href="../api/logout.jsp"> Logout </a></li>
       </ul>
       <div class="clear"></div>
     </div>
@@ -120,18 +191,34 @@ ul.rig.columns-4 li {
     String dbSelectURL =  "jdbc:mysql://localhost/shop_cart";
     String dbName = "root";
     String dbPassword = "";
+    int page_id = Integer.parseInt(request.getParameter("page_id"));
+    int numberOfRecords = 8;
     out.println("<ul class='rig columns-4'>");
     try{
     Class.forName(driverName);
     Connection con = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
     Statement st = con.createStatement();
     ResultSet rs = st.executeQuery(productQuery);
-    while(rs.next()){
-        String productName = rs.getString("name");
-        String productId = rs.getString("product_id");
-        String productPrice = rs.getString("price");
-        String productDescription = rs.getString("description");
-        String imagePath = rs.getString("image_path");
+    rs.last();
+    int totalNumberOfRows = rs.getRow();
+    rs.beforeFirst();
+    int numberOfPages = totalNumberOfRows/numberOfRecords;
+    int remain = totalNumberOfRows % numberOfRecords;
+    if(remain != 0){
+        numberOfPages++;
+    }
+    String sqlQuery = "SELECT * FROM product_table LIMIT ?, ?;";
+    PreparedStatement ps = con.prepareStatement(sqlQuery);
+    int row_id = (page_id - 1)*numberOfRecords;
+    ps.setInt(1, row_id);
+    ps.setInt(2, numberOfRecords);
+    ResultSet rs_1 = ps.executeQuery();
+    while(rs_1.next()){
+        String productName = rs_1.getString("name");
+        String productId = rs_1.getString("product_id");
+        String productPrice = rs_1.getString("price");
+        String productDescription = rs_1.getString("description");
+        String imagePath = rs_1.getString("image_path");
         out.println("<li>");
         if(!imagePath.equals("")){
         out.println("<img height='209' width='140' src=");
@@ -154,9 +241,28 @@ ul.rig.columns-4 li {
         out.println("</p>");
         out.println("</li>");
     }
+    out.println("</ul>");
+       if(page_id == 1){
+           %>
+           <a href="products.jsp?page_id=2" class = "button">  Next </a>
+           <%
+       }
+       else if(page_id == numberOfPages){
+           out.println("<a class = 'button' href='products.jsp?page_id=");
+           out.println(numberOfPages-1);
+           out.println("'> Previous </a>");
+       }
+       else{
+           out.println("<a class = 'button-left' href='products.jsp?page_id=");
+           out.println(page_id - 1);
+           out.println("'> Previous </a>");
+           out.println("<a class = 'button-right' href='products.jsp?page_id=");
+           out.println(page_id + 1);
+           out.println("'> Next </a>");
+       }
     }
     catch(Exception e){
-        out.println("error<br>");e.printStackTrace();
+        out.println(e.toString());
     }
 %>
        

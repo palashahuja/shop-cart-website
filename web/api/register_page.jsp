@@ -30,7 +30,8 @@
         errorOccured = "input email is invalid";
     }
     else if(!phonenumberPattern.matcher(phoneNumber).matches()){
-        errorOccured = "phone number is invalid";
+        errorOccured = "phone number is "
+                + "invalid";
     }
  
     try{

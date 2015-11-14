@@ -1,6 +1,6 @@
 <%-- 
-    Document   : order
-    Created on : 12 Nov, 2015, 3:55:20 PM
+    Document   : track_your_order
+    Created on : 13 Nov, 2015, 12:47:25 PM
     Author     : palash
 --%>
 
@@ -55,6 +55,10 @@
         float: left;
         margin-left: 43%;
     }
+    .order-delivery-status{
+        float: left;
+        margin-left: 10%;
+    }
     .address-inp{
         float: left;
         margin-left: 10%;
@@ -100,7 +104,7 @@
         <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
-        
+        <li><a href="add_to_cart.jsp">Add to Cart</a></li>
         <li><a href="track_your_order.jsp"> Track Your Order </a></li>
         <li><a href="../api/logout.jsp"> Logout </a></li>
       </ul>
@@ -120,15 +124,6 @@
   </div>
 </center> 
 <%! ArrayList<String> ar = new ArrayList<>(); %>
-<%  if(null == session.getAttribute("cart")){
-    out.println("You haven't added products to the cart.<br />");
-    out.println("Please go back to the");
-    out.println("<a href='products.jsp?page_id=1'/>products page.</a>");
-    out.println("</body>");
-    out.println("</html>");
-    return;
-}
-%>
                 <p class = 'order-item'> ITEM </p>
                 <p class = 'order-qty'> QTY </p>
                 <p class = 'order-price'> PRICE </p>
@@ -138,39 +133,37 @@
             <center>
             <hr style="width: 90%;">
             </center>
-            <%! Map<String, Integer> productCount = new HashMap<>();%>
             <%
-                productCount.clear();
-                ar = (ArrayList<String>) session.getAttribute("cart");
                 
-                for(String productId : ar){
-                    if(productCount.containsKey(productId)){
-                        int count = productCount.get(productId);
-                        count += 1;
-                        productCount.put(productId, count);
-                    }
-                    else{
-                        productCount.put(productId, 1);
-                    }
-                }
+                String email = (String)session.getAttribute("email");
                 String driverName = "com.mysql.jdbc.Driver";
                 String dbSelectURL =  "jdbc:mysql://localhost/shop_cart";
                 String dbName = "root";
                 String dbPassword = "";
-                int totalPrice = 0;
-                for(String productId : productCount.keySet()){
-                    String productQuery = "SELECT * FROM product_table where product_id='" + productId + "';" ;
-                    try{
-                          Class.forName(driverName);
-                          Connection con = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
-                          Statement st = con.createStatement();
-                          ResultSet rs = st.executeQuery(productQuery);
-                           while(rs.next()){
-                           String productName = rs.getString("name");
-        //String productId = rs.getString("product_id");
-                           String productPrice = rs.getString("price");
-                           String productDescription = rs.getString("description");
-                           String imagePath = rs.getString("image_path");
+                String orderProductQuery = "SELECT * FROM order_detail_table where email=? ORDER BY order_date DESC";
+                try{
+                     Class.forName(driverName);
+                     Connection con = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
+                     PreparedStatement ps = con.prepareStatement(orderProductQuery);
+                     ps.setString(1, email);
+                     ResultSet rs = ps.executeQuery();
+                     while(rs.next()){
+                            
+                            String productIdQuery = "SELECT * FROM product_table where product_id=?";
+                            String productId = rs.getString("product_id");
+                            String orderId = rs.getString("order_id");
+                            int orderStatus = rs.getInt("order_state");
+                            Connection con_1 = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
+                            PreparedStatement ps_1 = con_1.prepareStatement(productIdQuery);
+                            ps_1.setInt(1, Integer.parseInt(productId));
+                            ResultSet rs_1;
+                            rs_1 = ps_1.executeQuery();
+                            while(rs_1.next()){
+                            String productName = rs_1.getString("name");
+                            String productPrice = rs_1.getString("price");
+                            String imagePath = rs_1.getString("image_path");
+                            String productQuantity = rs.getString("quantity");
+                            String productDescription = rs_1.getString("description");
                            if(!imagePath.equals("")){
                                 out.println("<img style='margin-left:5%; float:left;' height='109' width='80' src=");
                                 out.println(imagePath);
@@ -182,37 +175,28 @@
                            out.println(productDescription);
                            out.println("</p>");
                            out.println("<p class='order-qty-product'>");
-                           out.println(productCount.get(productId));
+                           out.println(productQuantity);
                            out.println("</p>");
                            out.println("<p class='order-price-product'>");
                            out.println("<b>" + productPrice + "</b>");
                            out.println("</p>");
+                           out.println("<p class='order-delivery-status'>");
+                           String deliveryStatus=null;
+                           if(orderStatus == 0){
+                               deliveryStatus = "undelivered";
+                           }
+                           else if(orderStatus == 1){
+                               deliveryStatus = "delivered";
+                           }
+                           out.println("<b>" + deliveryStatus + "</b>");
+                           out.println("</p>");
                            out.println("<center><hr style='width: 90%;'></center>");
                            out.println("<br />");
-                           totalPrice += Integer.parseInt(productPrice)*productCount.get(productId);
-                          }
                            
-                    }
-                    catch(Exception e){
-                       out.println("error<br />");e.printStackTrace();
-                    }
+                     }
                 }
-                
-                //session.invalidate();
-                session.setAttribute("total price",totalPrice);
-                out.println("<p class='total-price'>");
-                out.println("Total price:");
-                out.println("<b>" +totalPrice+"</b>");
-                out.println("</p>"); 
-            %>
-            <br />
-            <form class='address-inp' action="payment_method.jsp">
-            <h3> <b> Address: </b> </h3>
-            <input id = "address-input" size="50" name="address-input" placeholder="address"/>
-            <br />
-            <br />
-            <input type='submit' class='button' value='Proceed to Payment'/>
-            </form>
-           ￼
-    </body>
-</html>
+                }
+                catch(Exception e){
+                    out.println(e.toString());
+                }
+                %>

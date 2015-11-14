@@ -32,7 +32,7 @@
    
         String pageId = request.getParameter("page_id");
         if(pageId.equals("1")){
-        response.sendRedirect("../views/products.jsp");
+        response.sendRedirect("../views/products.jsp?page_id=1");
         }
         else if(pageId.equals("2")){
         response.sendRedirect("../views/order.jsp");
