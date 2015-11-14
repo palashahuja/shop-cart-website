@@ -34,7 +34,7 @@ a.hiddenanchor{
 }
 /** The wrapper that will contain our two forms **/
 #wrapper{
-	width: 60%;
+	width: 100%;
 	right: 0px;
 	min-height: 560px;	
 	margin: 0px auto;	

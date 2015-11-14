@@ -25,7 +25,7 @@
    
     if(!password.equals(password_confirm)){
         errorOccured = "The passwords do not match";
-    }
+        }
     else if(!emailpattern.matcher(email).matches()){ // checking whether the input is a a valid email.
         errorOccured = "input email is invalid";
     }
