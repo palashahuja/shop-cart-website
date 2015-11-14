@@ -12,13 +12,8 @@
 String DBNAME = "shop_cart";
 // mysql driver
 String driver = "com.mysql.jdbc.Driver";
-String pname = request.getParameter("pname");
-String pprice = request.getParameter("pprice");
-String avail = request.getParameter("avail");
-String cat = request.getParameter("cat");
-String desc = request.getParameter("desc");
-float price = Float.parseFloat(pprice);
-int av = Integer.parseInt(avail);
+String pid = request.getParameter("id");
+
 
 // the "url" to our DB, the last part is the name of the DB
 String url = "jdbc:mysql://localhost/" + DBNAME;
@@ -38,18 +33,20 @@ String pass = "";
 try
 {
 // Test the DB connection by making an empty table
-String checkQuery = "INSERT INTO product_table (name,price,availability,category,description) "
-        + "VALUES ('"+pname+"','"+price+"','"+av+"','"+cat+"','"+desc+"')";
-
+String checkQuery = "DELETE FROM product_table WHERE product_id='"+pid+"'";
+out.println(pid);
 Class.forName( driver );
 // initialize the Connection, with our DB info ...
 Connection con = DriverManager.getConnection( url, name, pass );
+
 Statement stat = con.createStatement();
 %>
 <%
-stat.executeUpdate(checkQuery);
-System.out.println("HELLO!!");
-
+int a = stat.executeUpdate(checkQuery);
+if(a != 0)
+{
+    response.sendRedirect("../views/adminproduct.jsp");
+}
 /*if(rs.next()){
     
 }
@@ -61,13 +58,15 @@ else{
 %>
 
 <%
-// close connection
+ //close connection;
 con.close();
 }
 catch (SQLException sqle)
 { out.println("<p> Error opening JDBC, cause:</p> <b> " + sqle + "</b>"); }
 catch(ClassNotFoundException cnfe)
-{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");}
+{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");
+    
+}
 %>
     </body>
 </html>
