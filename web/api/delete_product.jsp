@@ -1,8 +1,10 @@
 <%-- 
-    Document   : login_page.jsp
-    Created on : 15 Oct, 2015, 7:35:51 PM
-    Author     : palash
+    Document   : updateproduct
+    Created on : Nov 12, 2015, 7:02:16 PM
+    Author     : Atul Patnigere
 --%>
+
+
 <%@ page import="java.sql.*" %>
 <%@ page import="com.mysql.jdbc.Driver" %>
 
@@ -10,8 +12,9 @@
 String DBNAME = "shop_cart";
 // mysql driver
 String driver = "com.mysql.jdbc.Driver";
-String email = request.getParameter("username");
-String password = request.getParameter("password");
+String pid = request.getParameter("id");
+
+
 // the "url" to our DB, the last part is the name of the DB
 String url = "jdbc:mysql://localhost/" + DBNAME;
 // the default DB username and password may be the same as your control panel login
@@ -19,48 +22,52 @@ String url = "jdbc:mysql://localhost/" + DBNAME;
 String name = "root";
 String pass = "";
 %>
-
+<!DOCTYPE html>
 <html>
-<head>
-</head>
-<body>
-<%
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<title>JSP Page</title> -->
+    </head>
+    <body>
+        <%
 try
 {
 // Test the DB connection by making an empty table
-String checkQuery = "SELECT * FROM user_table where email = '" + email + "' and password = '" + password + "'";  
+String checkQuery = "DELETE FROM product_table WHERE product_id='"+pid+"'";
+out.println(pid);
 Class.forName( driver );
-String adminMail = "admin@mail.com";
-String adminPass = "admin";
-if(email.equals(adminMail) && password.equals(adminPass)){
-   response.sendRedirect("../views/adminportal.jsp");
-   return;
-}
 // initialize the Connection, with our DB info ...
 Connection con = DriverManager.getConnection( url, name, pass );
+
 Statement stat = con.createStatement();
 %>
 <%
-ResultSet rs = stat.executeQuery(checkQuery);
-if(rs.next()){
-    session.setAttribute("email", email);
-    response.sendRedirect("../views/home.html");
+int a = stat.executeUpdate(checkQuery);
+if(a != 0)
+{
+    response.sendRedirect("../views/adminproduct.jsp");
+}
+/*if(rs.next()){
+    
 }
 else{
     session.setAttribute("errorMsg", "password or email is incorrect");
     session.setAttribute("previouspage", "../views/loginandregisterpage.html");
     response.sendRedirect("../views/errormsg.jsp");
-}
+}*/
 %>
 
 <%
-// close connection
+ //close connection;
 con.close();
 }
 catch (SQLException sqle)
 { out.println("<p> Error opening JDBC, cause:</p> <b> " + sqle + "</b>"); }
 catch(ClassNotFoundException cnfe)
-{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");}
+{ out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");
+    
+}
 %>
-</body>
+    </body>
 </html>
+

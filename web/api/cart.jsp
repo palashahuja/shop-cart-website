@@ -29,7 +29,7 @@
             ar.add(productId);
             session.setAttribute("cart", ar);
         }
-   
+  
         String pageId = request.getParameter("page_id");
         if(pageId.equals("1")){
         response.sendRedirect("../views/products.jsp?page_id=1");

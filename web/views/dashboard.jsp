@@ -1,8 +1,4 @@
-<%-- 
-    Document   : login_page.jsp
-    Created on : 15 Oct, 2015, 7:35:51 PM
-    Author     : palash
---%>
+
 <%@ page import="java.sql.*" %>
 <%@ page import="com.mysql.jdbc.Driver" %>
 
@@ -10,7 +6,7 @@
 String DBNAME = "shop_cart";
 // mysql driver
 String driver = "com.mysql.jdbc.Driver";
-String email = request.getParameter("username");
+String pname = request.getParameter("username");
 String password = request.getParameter("password");
 // the "url" to our DB, the last part is the name of the DB
 String url = "jdbc:mysql://localhost/" + DBNAME;
@@ -19,39 +15,42 @@ String url = "jdbc:mysql://localhost/" + DBNAME;
 String name = "root";
 String pass = "";
 %>
-
+<!DOCTYPE html>
 <html>
-<head>
-</head>
-<body>
-<%
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<title>JSP Page</title> -->
+    </head>
+    <body>
+        <%
 try
 {
 // Test the DB connection by making an empty table
-String checkQuery = "SELECT * FROM user_table where email = '" + email + "' and password = '" + password + "'";  
+String checkQuery = "SELECT COUNT(*) FROM product_table";
+
 Class.forName( driver );
-String adminMail = "admin@mail.com";
-String adminPass = "admin";
-if(email.equals(adminMail) && password.equals(adminPass)){
-   response.sendRedirect("../views/adminportal.jsp");
-   return;
-}
 // initialize the Connection, with our DB info ...
 Connection con = DriverManager.getConnection( url, name, pass );
 Statement stat = con.createStatement();
 %>
 <%
 ResultSet rs = stat.executeQuery(checkQuery);
-if(rs.next()){
-    session.setAttribute("email", email);
-    response.sendRedirect("../views/home.html");
+System.out.println("HELLO!!");
+rs.next();
+int count = rs.getInt(1);
+System.out.println("Total No. of Products: "+count); 
+
+/*if(rs.next()){
+    
 }
 else{
     session.setAttribute("errorMsg", "password or email is incorrect");
     session.setAttribute("previouspage", "../views/loginandregisterpage.html");
     response.sendRedirect("../views/errormsg.jsp");
-}
+}*/
 %>
+<h3>Total No. of Products: </h3><%= count%>
+<h3>No. of Recent Orders: </h3>
 
 <%
 // close connection
@@ -62,5 +61,5 @@ catch (SQLException sqle)
 catch(ClassNotFoundException cnfe)
 { out.println("<p> Error opening JDBC, cause:</p> <b>" + cnfe + "</b>");}
 %>
-</body>
+    </body>
 </html>
