@@ -37,10 +37,9 @@ String pass = "";
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="dashboard.jsp">Dashboard</a></li>
-        <li><a href="http://all-free-download.com/free-website-templates/">Products</a></li>
+        <li><a href="adminproduct.jsp?page_id=1">Products</a></li>
         <li><a href="orderpage.jsp">Orders</a></li>
-        <li><a href="http://all-free-download.com/free-website-templates/">Payments</a></li>
+        <li><a href="payments.jsp">Payments</a></li>
         <li><a href="http://all-free-download.com/free-website-templates/">Offers & Discounts</a></li>
         <li><a href="editproduct.jsp">Add New Products</a></li>
       </ul>
@@ -63,22 +62,6 @@ ResultSet rs = stat.executeQuery(checkQuery);
 
 
 
-
-
-
-%>
-
-<table cols="5" name="orders" border="2">
-    <tr><th>Order ID</th><th>Payment Recieved</th></tr>
-    <% while(rs.next()){ %>
-    <tr>
-        <td> <%= rs.getString(1) %></td>
-        <td> <%= rs.getString(2) %></td>
-    </tr>
-    <% } %>
-</table>
-
-<%
 // close connection
 con.close();
 }

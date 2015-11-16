@@ -34,11 +34,10 @@ String url = "jdbc:mysql://localhost/" + DBNAME;
 
 String db_name = "root";
 String db_pass = "";
-String product_id_string = (String)session.getAttribute("product_id");
-int product_id = Integer.parseInt(product_id_string);
       String contentType = request.getContentType();
+      
       if(contentType.indexOf("multipart/form-data;") >= 0){
-     
+       out.println("123");
        FileItemFactory factory = new DiskFileItemFactory();
        ServletFileUpload upload = new ServletFileUpload(factory);
        List items = null;
@@ -84,24 +83,8 @@ int product_id = Integer.parseInt(product_id_string);
                        {
                            desc = value;
                        }
-                       if(pname == null || desc == null || cat == null || pprice ==  null || avail == null || desc == null){
-                           session.setAttribute("error","form not filled");
-                           //response.sendRedirect("../views/editproduct.jsp?id=" + product_id );
-                       }
-                       try{
-                           price = Float.parseFloat(pprice);
-                       }
-                       catch(Exception e){
-                           session.setAttribute("error","incorrect value entered for price.");
-                           //response.sendRedirect("../views/editproduct.jsp");
-                       }
-                       try{
-                           availability = Integer.parseInt(avail);
-                       }
-                       catch(Exception e){
-                           session.setAttribute("error","incorrect value entered for price.");
-                           //response.sendRedirect("../views/editproduct.jsp");
-                       }
+                      
+                       
                         
             }
             else                                      //this else part for process about PDF file
@@ -118,7 +101,7 @@ int product_id = Integer.parseInt(product_id_string);
         // It's an image (only BMP, GIF, JPG and PNG are recognized).
                          } catch (Exception e) {
                            session.setAttribute("error","image not uploaded");
-                           //response.sendRedirect("../views/editproduct.jsp");
+                           response.sendRedirect("../views/add_new_product.jsp");
                      }
 }
                     item.write(savedFile);    //saving file into disc,item contain which you select the file.
@@ -131,9 +114,28 @@ int product_id = Integer.parseInt(product_id_string);
                 }
               }
           }
+                 if(pname == null || desc == null || cat == null || pprice ==  null || avail == null ){
+                           session.setAttribute("error","form not filled");
+                           //response.sendRedirect("../views/add_new_product.jsp");
+                           return;
+                       }
+                       try{
+                           price = Float.parseFloat(pprice);
+                       }
+                       catch(Exception e){
+                           session.setAttribute("error","incorrect value entered for price.");
+                           response.sendRedirect("../views/add_new_product.jsp");
+                       }
+                       try{
+                           availability = Integer.parseInt(avail);
+                       }
+                       catch(Exception e){
+                           session.setAttribute("error","incorrect value entered for price.");
+                           response.sendRedirect("../views/add_new_product.jsp");
+                       }
                  Class.forName( driver );
 // initialize the Connection, with our DB info ...
-                 String updateQuery = "UPDATE product_table SET name=?, price=?, availability=?, image_path=?, category=?, description=?, upload_date=? WHERE product_id=?;";
+                 String updateQuery = "INSERT INTO product_table(name, price, availability, image_path, category, description, upload_date)   VALUES(?,?,?,?,?,?,?);";
                  Connection con = DriverManager.getConnection( url, db_name, db_pass );
                  PreparedStatement ps = con.prepareStatement(updateQuery);
                  ps.setString(1, pname);
@@ -145,12 +147,13 @@ int product_id = Integer.parseInt(product_id_string);
                  java.util.Date tempDate = new java.util.Date();
                  java.sql.Date propDate = new java.sql.Date(tempDate.getTime());
                  ps.setDate(7, propDate);
-                 ps.setInt(8, product_id);
+                 //ps.setInt(8, product_id);
                  out.println(ps.toString());
                  ps.executeUpdate();
                  
       }
-      response.sendRedirect("../views/editproduct.jsp?id=" + product_id_string);
+      out.println("123");
+      response.sendRedirect("../views/add_new_product.jsp");
     
 %>      
     </body>

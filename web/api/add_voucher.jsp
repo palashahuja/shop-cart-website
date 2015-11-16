@@ -6,20 +6,27 @@
 
 
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <%@ page import="com.mysql.jdbc.Driver" %>
 
 <%
 String DBNAME = "shop_cart";
 // mysql driver
 String driver = "com.mysql.jdbc.Driver";
-String pid = request.getParameter("id");
-String pname = request.getParameter("pname");
-String pprice = request.getParameter("pprice");
-String avail = request.getParameter("avail");
-String cat = request.getParameter("cat");
-String desc = request.getParameter("desc");
-float price = Float.parseFloat(pprice);
-int av = Integer.parseInt(avail);
+String discount_amount = request.getParameter("discount");
+String threshold_amount = request.getParameter("threshold");
+String avail = request.getParameter("date");
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+out.println(avail);
+java.util.Date date = sdf.parse(request.getParameter("date"));
+out.println(date.toString());
+java.sql.Date date1 = new java.sql.Date(date.getTime());
+
+float discount = Float.parseFloat(discount_amount);
+float threshold = Float.parseFloat(threshold_amount);
+
+
 
 // the "url" to our DB, the last part is the name of the DB
 String url = "jdbc:mysql://localhost/" + DBNAME;
@@ -39,8 +46,8 @@ String pass = "";
 try
 {
 // Test the DB connection by making an empty table
-String checkQuery = "UPDATE product_table SET name='"+pname+"' ,price='"+price+"' ,availability='"+av+"' ,"
-        + "category='"+cat+"' ,description='"+desc+"' WHERE product_id='"+pid+"'";
+String checkQuery = "INSERT INTO voucher_table (expiration_date,discount_amount,threshold_amount) "
+        + "VALUES ('"+date1+"','"+discount+"','"+threshold+"')";
 
 Class.forName( driver );
 // initialize the Connection, with our DB info ...
@@ -51,7 +58,7 @@ Statement stat = con.createStatement();
 int a = stat.executeUpdate(checkQuery);
 if(a!=0)
 {
-    response.sendRedirect("../views/adminproduct.jsp");
+    response.sendRedirect("../views/discounts.jsp");
 }
 /*if(rs.next()){
     

@@ -25,9 +25,8 @@
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="home.html">Home</a></li>
+        <li><a href="products.jsp?page_id=1">Home</a></li>
         <li><a href="category.jsp">Categories</a></li>
-        <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
         <li><a href="track_your_order.jsp"> Track Your Order </a></li>
@@ -56,6 +55,9 @@
               out.println("error");
           }
           String address = request.getParameter("address-input");
+          String voucherId = request.getParameter("voucher-input");
+          String voucherQuery = "SELECT discount_amount AS DIS FROM voucher_table WHERE voucher_id = ?";
+      
           //out.println(address);
           String email = (String) session.getAttribute("email");
           ArrayList<String> ar = (ArrayList<String>) session.getAttribute("cart");
@@ -66,30 +68,54 @@
           String dbPassword = "";
           int totalPrice = (int)session.getAttribute("total price");
           String totalPrice_str = Integer.toString(totalPrice);
+          String voucherDiscount = null;
+          out.println("123");
           try{
                Class.forName(driverName);
                Connection con = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
                Statement st = con.createStatement();
                ResultSet rs = st.executeQuery(idQuery);
+               PreparedStatement ps  = con.prepareStatement(voucherQuery);
+               ps.setInt(1, Integer.parseInt(voucherId));
+               ResultSet rs_1 = ps.executeQuery();
+               while(rs_1.next()){
+                   voucherDiscount = rs_1.getString("DIS");
+               }
                while(rs.next()){
                    userId = rs.getString("user_id");
                }
           }
           catch(Exception e){
-                       out.println("error<br />");e.printStackTrace();
+                       out.println(e.toString());
           }
+          out.println("456");
           //out.println(userId);
-          String discount = "0";
-          String insertQuery = "INSERT INTO order_table(shipping_address, user_id, discount, total_price)"
-                  + "values('" + address + "','" + userId + "','" + discount + "','" + totalPrice_str + "');";
+          String discount=null;
+          if(voucherDiscount!=null) 
+          {discount = voucherDiscount; 
+          totalPrice -= Integer.parseInt(discount);
+          if(totalPrice < 0){
+              out.println("error. voucher not applicable.");
+          }
+          totalPrice_str = Integer.toString(totalPrice);
+          }
+          
+          String insertQuery = "INSERT INTO order_table(shipping_address, user_id, discount, total_price, payment_type, pay_recieved)   VALUES(?, ?, ?, ?, ?, 1);";
+          
           try{
                Class.forName(driverName);
                Connection con = DriverManager.getConnection(dbSelectURL, dbName ,dbPassword);
-               Statement st = con.createStatement();
-               st.executeUpdate(insertQuery);
+               PreparedStatement ps_2   = con.prepareStatement(insertQuery);
+               ps_2.setString(1, address);
+               ps_2.setString(2, userId);
+               ps_2.setInt(3, Integer.parseInt(discount));
+               ps_2.setInt(4, totalPrice);
+               ps_2.setInt(5, 0);
+               ps_2.executeUpdate();
           }
           catch(Exception e){
-                       out.println("error<br />");e.printStackTrace();
+                       out.println(e.toString());
+                       
           }
           String orderId_query = "SELECT MAX(order_id) AS maxId FROM order_table;";
            try{

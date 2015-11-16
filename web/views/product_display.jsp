@@ -52,9 +52,8 @@
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="home.html">Home</a></li>
+        <li><a href="products.jsp?page_id=1">Home</a></li>
         <li><a href="category.jsp">Categories</a></li>
-        <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
         <li><a href="track_your_order.jsp"> Track Your Order </a></li>

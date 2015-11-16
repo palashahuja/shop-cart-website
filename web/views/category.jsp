@@ -155,27 +155,17 @@ ul.rig.columns-4 li {
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="home.html">Home</a></li>
+        <li><a href="products.jsp?page_id=1">Home</a></li>
         <li><a href="category.jsp">Categories</a></li>
-        <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
+        <li><a href="track_your_order.jsp"> Track Your Order </a></li>
         <li><a href="../api/logout.jsp"> Logout </a></li>
       </ul>
       <div class="clear"></div>
     </div>
   </div>
-   <div class="search">
-    <div class="search-text"> Search the world of shopping!&nbsp;
-      <input type="text" size="40" />
-      &nbsp;&nbsp;</div>
-    <div style="float:left; margin-left:5px; margin-top:10px;">
-      <input type="image" src="../images/search.jpg" />
-    </div>
-  </div>
-  <div class="hot-search">
-    <div class="hot-search-text"> Hot Searches: Apple iPod Nano, Hugo Boss Clothing, HD DVD Player, DSLR Camera, Toshiba 32&quot; LCD TV, Unsecured Loans, Excersise Machines..</div>
-  </div>
+  
   <%
     String productQuery = "SELECT * FROM product_table";
     String driverName = "com.mysql.jdbc.Driver";

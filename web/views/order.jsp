@@ -95,12 +95,10 @@
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
-        <li><a href="home.html">Home</a></li>
+        <li><a href="products.jsp?page_id=1">Home</a></li>
         <li><a href="category.jsp">Categories</a></li>
-        <li><a href="products.jsp?page_id=1">Products</a></li>
         <li><a href="deals.jsp">Hot Deals</a></li>
         <li><a href="order.jsp">Place Order</a></li>
-        
         <li><a href="track_your_order.jsp"> Track Your Order </a></li>
         <li><a href="../api/logout.jsp"> Logout </a></li>
       </ul>
@@ -209,6 +207,11 @@
             <form class='address-inp' action="payment_method.jsp">
             <h3> <b> Address: </b> </h3>
             <input id = "address-input" size="50" name="address-input" placeholder="address"/>
+            <br />
+            <br />
+            <form class='address-inp' action="payment_method.jsp">
+            <h3> <b> Enter Voucher Code: </b> </h3>
+            <input id = "voucher-input" size="50" name="voucher-input" placeholder="voucher-code"/>
             <br />
             <br />
             <input type='submit' class='button' value='Proceed to Payment'/>
