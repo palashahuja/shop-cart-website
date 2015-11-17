@@ -162,10 +162,11 @@ ul.rig.columns-4 li {
     <div class="logo"> Shop<strong>Online</strong></div>
     <div class="menu">
       <ul class="solidblockmenu">
+        <li><a href="adminportal.jsp">Dashboard</a></li>
         <li><a href="adminproduct.jsp?page_id=1">Products</a></li>
         <li><a href="orderpage.jsp">Orders</a></li>
         <li><a href="payments.jsp">Payments</a></li>
-        <li><a href="http://all-free-download.com/free-website-templates/">Offers & Discounts</a></li>
+        <li><a href="discounts.jsp">Offers & Discounts</a></li>
         <li><a href="add_new_product.jsp">Add New Products</a></li>
       </ul>
       <div class="clear"></div>

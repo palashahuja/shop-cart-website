@@ -87,7 +87,7 @@ String pass = "";
     <div class="menu">
       <ul class="solidblockmenu">
         <li><a href="adminportal.jsp">Dashboard</a></li>
-        <li><a href="adminproduct.jsp">Products</a></li>
+        <li><a href="adminproduct.jsp?page_id=1">Products</a></li>
         <li><a href="orderpage.jsp">Orders</a></li>
         <li><a href="payments.jsp">Payments</a></li>
         <li><a href="discounts.jsp">Offers & Discounts</a></li>

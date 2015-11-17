@@ -86,6 +86,8 @@
  -webkit-box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff; 
  -moz-box-shadow: 0px 0px 2px #bababa,  inset 0px 0px 1px #ffffff;  
  box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;
+ float: left;
+ margin-left: 10%;
     }
 </style>
 </head>
@@ -185,6 +187,8 @@
                            out.println("<p class='order-price-product'>");
                            out.println("<b>" + productPrice + "</b>");
                            out.println("</p>");
+                           out.println("<a class='button' href='../api/delete_from_cart.jsp?id="+productId+"'>");  
+                           out.println("Delete </a>");
                            out.println("<center><hr style='width: 90%;'></center>");
                            out.println("<br />");
                            totalPrice += Integer.parseInt(productPrice)*productCount.get(productId);
